@@ -3,6 +3,8 @@ use lettre_email::Email;
 use log;
 use log4rs;
 use log4rs::encode::writer::simple::SimpleWriter;
+#[cfg(feature = "file")]
+use serde::Deserialize;
 use std::env;
 use std::net::{SocketAddr, ToSocketAddrs};
 
@@ -44,6 +46,28 @@ impl log4rs::append::Append for EmailAppender {
     }
 
     fn flush(&self) {}
+}
+
+#[derive(Deserialize)]
+struct EmailConfig {
+    smtp_server: Option<String>,
+    recipient: Option<String>,
+    subject: Option<String>,
+    sender: Option<Striong>,
+}
+
+struct EmailDeserializer {}
+
+impl log4rs::file::Deserialize for EmailDeserializer {
+    type Trait = log4rs::append::Append;
+    type Config = EmailConfig;
+
+    fn deserialize(
+        &self,
+        config: Self::Config,
+        deserializers: &log4rs::file::Deserializers,
+    ) -> Result<Box<Self::Trait>, Box<std::error::Error + Sync + Send>> {
+    }
 }
 
 pub struct EmailAppenderBuilder {
@@ -122,5 +146,11 @@ mod tests {
             .unwrap();
         let handle = log4rs::init_config(config).unwrap();
         error!("foo");
+    }
+
+    #[test]
+    fn test_config() {
+        let mut deserializers = log4rs::file::Deserializers::new();
+        log4rs::syslog::register(&mut deserializers);
     }
 }
