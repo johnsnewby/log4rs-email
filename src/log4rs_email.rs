@@ -3,8 +3,9 @@ use lettre_email::Email;
 use log;
 use log4rs;
 use log4rs::encode::writer::simple::SimpleWriter;
-#[cfg(feature = "file")]
+#[cfg(feature = "file,derive")]
 use serde::Deserialize;
+use serde::{Deserialize,Serialize};
 use std::env;
 use std::net::{SocketAddr, ToSocketAddrs};
 
@@ -48,12 +49,12 @@ impl log4rs::append::Append for EmailAppender {
     fn flush(&self) {}
 }
 
-#[derive(Deserialize)]
+#[derive(Serialize, Deserialize, Debug)]
 struct EmailConfig {
     smtp_server: Option<String>,
     recipient: Option<String>,
     subject: Option<String>,
-    sender: Option<Striong>,
+    sender: Option<String>,
 }
 
 struct EmailDeserializer {}

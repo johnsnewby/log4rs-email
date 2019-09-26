@@ -14,5 +14,5 @@ lettre_email = "0.9"
 log = { version = "0.4", default_features = false }
 log4rs = { version = "0.8.3", default_features = false, features = ["simple_writer", "pattern_encoder" ] }
 mailin-embedded = "0.5.0"
-serde = { version = "1.0.101", default_features = false, optional = true, features = ["derive"] }
-serde_derive = { version = "1.0.101" }
+serde = { version = "1.0", features = ["derive"] }
+serde_derive = { version = "1.0" }

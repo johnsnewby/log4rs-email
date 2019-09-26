@@ -7,8 +7,12 @@ extern crate log4rs;
 #[macro_use]
 #[cfg(feature = "file")]
 extern crate serde;
-#[cfg(feature = "file")]
-#[macro_use]
-extern crate serde_derive;
 
 pub mod log4rs_email;
+
+use serde::Deserialize;
+
+#[derive(Deserialize)]
+pub struct Foo {
+    x: String,
+}
