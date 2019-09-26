@@ -9,10 +9,3 @@ extern crate log4rs;
 extern crate serde;
 
 pub mod log4rs_email;
-
-use serde::Deserialize;
-
-#[derive(Deserialize)]
-pub struct Foo {
-    x: String,
-}
